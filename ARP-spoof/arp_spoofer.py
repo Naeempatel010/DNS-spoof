@@ -5,9 +5,6 @@ import os
 import sys
 
 def _enable_linux_iproute():
-    """
-    Enables IP route ( IP Forward ) in linux-based distro
-    """
     file_path = "/proc/sys/net/ipv4/ip_forward"
     with open(file_path) as f:
         if f.read() == 1:
