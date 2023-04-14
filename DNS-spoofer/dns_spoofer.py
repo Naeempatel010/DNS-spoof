@@ -17,12 +17,9 @@ def process_packet(packet):
         try:
             scapy_packet = modify_packet(scapy_packet)
         except IndexError:
-            # not UDP packet, this can be IPerror/UDPerror packets
             pass
         print("[After ]:", scapy_packet.summary())
-        # set back as netfilter queue packet
         packet.set_payload(bytes(scapy_packet))
-    # accept the packet
     packet.accept()
 
 
