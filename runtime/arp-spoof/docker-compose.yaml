@@ -28,3 +28,12 @@ services:
         ipv4_address: 192.168.12.61
     tty: true
     stdin_open: true
+  attacker:
+    container_name: victim
+    image: dns-docker
+    mac_address: 8a:ca:58:b9:e9:53
+    networks: 
+      dns-net:
+        ipv4_address: 192.168.12.62
+    tty: true
+    stdin_open: true
