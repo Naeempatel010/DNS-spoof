@@ -9,7 +9,8 @@ BUFFERSIZE = 1024
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-rServer', help='the DNS server to forward recursive queries to')
+    parser.add_argument('-rServer', action='append', 
+        help='the DNS server to forward recursive queries to.  If multiple entries are passed, random lookup will be enabled.')
     parser.add_argument('-local-ip', help='host ip address')
     args = parser.parse_args()
 

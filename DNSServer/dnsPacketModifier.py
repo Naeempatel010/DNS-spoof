@@ -1,12 +1,13 @@
+import random
 import socket, time
 from dnsPacket import DNSPacket
 
 class DNSPacketModifier:
 
-    def __init__(self, _serverName, _DNS_UDP_PORT, _BUFFERSIZE):
+    def __init__(self, _serverNames, _DNS_UDP_PORT, _BUFFERSIZE):
         self.DNS_UDP_PORT = _DNS_UDP_PORT
         self.BUFFERSIZE = _BUFFERSIZE
-        self.serverName = _serverName
+        self.serverNames = _serverNames
         self.socket_DNS_out = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.dnsCache = {}
 
@@ -20,8 +21,8 @@ class DNSPacketModifier:
             dnsPacket.replaceAllAnswers(self.dnsCache[a][0])
             return dnsPacket
 
-
-        self.socket_DNS_out.sendto(dnsPacket.serializePacket(),(self.serverName, self.DNS_UDP_PORT))
+        server = random.choice(self.serverNames)
+        self.socket_DNS_out.sendto(dnsPacket.serializePacket(),(server, self.DNS_UDP_PORT))
         data = self.socket_DNS_out.recv(self.BUFFERSIZE)
         packet = DNSPacket(data)
         self.dnsCache[a] = (packet.ArrayOfAnswers, time.time())
