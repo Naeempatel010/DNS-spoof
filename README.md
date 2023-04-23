@@ -2,20 +2,18 @@
 
 Usage:
 
-1) Edit runtime/scripts/start-network.sh
+1) Edit docker compose file(s):
+    - fill in appropriate IP info for the network
+    - adjust ip addresses for the containers if necessary
 
 * change ip, gateway, and set parent to match the physical interface you are using
 
 2) Build the docker with build.sh
 
-3) Start the network with the script.
+3) cd to the directory in "runtime" with the experiment you want to run
 
-Verify with 
+4) run 
+    $ docker compose up -d
 
-$docker inspect dns-net
-
-4) launch your containers
-
-docker run -it --rm -v <Path to directory on host>:<path to mount on docker> --name <name> --network dns-net dns-docker
-
-5) See Mac and IP with docker inspect dns-net
+5) attach to containers you want to run commands from
+    $ docker attach <container name>
