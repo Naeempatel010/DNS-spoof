@@ -9,13 +9,14 @@ BUFFERSIZE = 1024
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('rServer', help='the DNS server to forward recursive queries to')
+    parser.add_argument('-rServer', help='the DNS server to forward recursive queries to')
+    parser.add_argument('-local-ip', help='host ip address')
     args = parser.parse_args()
 
 
     #Setup UDP socket that will  receice DNS request
     sock_DNS_in = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock_DNS_in.bind(('127.0.0.1', DNS_UDP_PORT))
+    sock_DNS_in.bind((args.local_ip, DNS_UDP_PORT))
 
     #New instance of the Modifier
     modifier = DNSPacketModifier(args.rServer, DNS_UDP_PORT, BUFFERSIZE)
