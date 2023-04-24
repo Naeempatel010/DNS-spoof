@@ -4,13 +4,14 @@ import os
 
 #sample
 dns_hosts = {
-    b"www.google.com.": "192.168.1.100",
-    b"google.com.": "192.168.1.100",
+    b"www.google.com.": "202.89.233.101",
+    b"google.com.": "202.89.233.101",
     b"facebook.com.": "172.217.19.142"
 }
 
 
 def process_packet(packet):
+    print("HIT PACKET!")
     scapy_packet = IP(packet.get_payload())
     if scapy_packet.haslayer(DNSRR):
         print("[Before]:", scapy_packet.summary())
@@ -44,7 +45,7 @@ def modify_iptables(QUEUE_NUM, command):
         os.system("iptables --flush")
 
 if __name__ == "__main__":
-    QUEUE_NUM = 0
+    QUEUE_NUM = 1
     modify_iptables(QUEUE_NUM, "start")
     queue = NetfilterQueue()
     try:

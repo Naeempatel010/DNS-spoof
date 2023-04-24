@@ -17,8 +17,8 @@ services:
       dns-net:
         ipv4_address: 192.168.12.60
     volumes:
-      - /home/shantanu/Documents/DNS-SPOOF:/code
-    entrypoint: python3 /code/recursiveDNSserver.py -rServer 8.8.8.8 -local-ip 192.168.12.60
+      - /home/shantanu/Documents/DNS-spoof:/code
+    entrypoint: python3 /code/DNSServer/recursiveDNSserver.py -rServer 8.8.8.8 -local-ip 192.168.12.60
   victim:
     container_name: victim
     image: dns-docker
@@ -31,9 +31,13 @@ services:
   attacker:
     container_name: attacker
     image: dns-docker
+    privileged: true
     mac_address: 8a:ca:58:b9:e9:53
     networks: 
       dns-net:
         ipv4_address: 192.168.12.62
     tty: true
     stdin_open: true
+    volumes:
+      - /home/shantanu/Documents/DNS-spoof:/code
+    entrypoint: /code/ARP-spoof/attack-target.sh
